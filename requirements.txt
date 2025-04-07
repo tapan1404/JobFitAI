@@ -5,3 +5,4 @@ spacy
 nltk
 gunicorn
 pyresparser
+nltk>=3.5
