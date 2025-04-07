@@ -1,0 +1,5 @@
+flask
+PyPDF2
+pdfminer.six
+spacy
+nltk

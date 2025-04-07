@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JobFit AI - Resume Uploader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            padding: 40px;
+        }
+
+        .container {
+            background-color: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #e91e63;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input[type="file"], select, button {
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #c2185b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>JobFit AI</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="resume">Upload Resume (PDF):</label>
+        <input type="file" name="resume" accept=".pdf" required>
+
+        <label for="job_profile">Select Job Role:</label>
+        <select class="form-control" name="job_profile" required>
+  <option value="">Select Job Profile</option>
+  <option value="Software Developer">Software Developer</option>
+  <option value="Data Scientist">Data Scientist</option>
+  <option value="Frontend Developer">Frontend Developer</option>
+  <option value="Backend Developer">Backend Developer</option>
+  <option value="Full Stack Developer">Full Stack Developer</option>
+  <option value="DevOps Engineer">DevOps Engineer</option>
+  <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+  <option value="Data Analyst">Data Analyst</option>
+  <option value="Android Developer">Android Developer</option>
+  <option value="iOS Developer">iOS Developer</option>
+  <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+  <option value="Cloud Engineer">Cloud Engineer</option>
+</select>
+
+
+        <button type="submit">Analyze Resume</button>
+    </form>
+</div>
+</body>
+</html>
