@@ -1,4 +1,6 @@
 from pyresparser import ResumeParser
+import nltk
+nltk.data.path.append('./nltk_data')
 
 # Dictionary of required skills for various job profiles
 job_profile_skills = {
