@@ -1,29 +1,35 @@
+from difflib import SequenceMatcher
+
+job_keywords = {
+    "Software Developer": ["programming", "software development", "algorithms", "debugging", "object-oriented"],
+    "Data Scientist": ["data analysis", "machine learning", "statistics", "python", "data mining"],
+    "Frontend Developer": ["HTML", "CSS", "JavaScript", "React", "UI", "responsive design"],
+    "Backend Developer": ["API", "database", "server", "Node.js", "Python", "Java"],
+    "Full Stack Developer": ["frontend", "backend", "React", "Node.js", "full stack", "API"],
+    "DevOps Engineer": ["CI/CD", "Docker", "Kubernetes", "AWS", "infrastructure", "automation"],
+    "Machine Learning Engineer": ["ML", "deep learning", "TensorFlow", "scikit-learn", "AI"],
+    "Data Analyst": ["Excel", "SQL", "data visualization", "Tableau", "PowerBI"],
+    "Android Developer": ["Java", "Kotlin", "Android Studio", "mobile development"],
+    "iOS Developer": ["Swift", "iOS", "Xcode", "Objective-C", "iPhone"],
+    "Cybersecurity Analyst": ["cybersecurity", "network security", "ethical hacking", "vulnerabilities"],
+    "Cloud Engineer": ["AWS", "Azure", "cloud architecture", "deployment", "GCP"]
+}
+
 def get_job_match_score(resume_data, job_profile):
-    job_keywords = {
-        "Data Scientist": ["python", "machine learning", "statistics", "data analysis", "pandas", "numpy"],
-        "Web Developer": ["html", "css", "javascript", "react", "node.js", "frontend", "backend"],
-        "Android Developer": ["kotlin", "java", "android studio", "xml", "firebase"],
-        "Software Engineer": ["c++", "java", "python", "data structures", "algorithms", "system design"],
-        "DevOps Engineer": ["docker", "kubernetes", "aws", "jenkins", "linux", "ci/cd", "terraform"],
-        "UI/UX Designer": ["figma", "adobe xd", "sketch", "wireframing", "prototyping", "user research"],
-        "Cloud Engineer": ["aws", "azure", "gcp", "cloud infrastructure", "virtualization"],
-        "Database Administrator": ["sql", "oracle", "mysql", "mongodb", "database management", "backup"],
-        "AI/ML Engineer": ["deep learning", "tensorflow", "pytorch", "nlp", "cv", "python"],
-        "Cybersecurity Analyst": ["network security", "vulnerability assessment", "firewall", "threat detection"],
-        "Product Manager": ["agile", "scrum", "roadmap", "jira", "user stories", "market research"],
-        "Business Analyst": ["requirement gathering", "excel", "sql", "power bi", "data analysis", "communication"]
-    }
-
     required_skills = job_keywords.get(job_profile, [])
-    resume_skills = [skill.lower() for skill in resume_data.get('skills', [])]
+    resume_text = " ".join([
+        str(resume_data.get("name", "")),
+        str(resume_data.get("email", "")),
+        " ".join(map(str, resume_data.get("skills") or [])),
+        " ".join(map(str, resume_data.get("experience") or [])),
+        " ".join(map(str, resume_data.get("education") or [])),
+    ])
 
-    matched_skills = list(set(required_skills).intersection(set(resume_skills)))
-    missing_skills = list(set(required_skills) - set(matched_skills))
-
-    score = int((len(matched_skills) / len(required_skills)) * 100) if required_skills else 0
+    matched_keywords = [skill for skill in required_skills if skill.lower() in resume_text.lower()]
+    score = int((len(matched_keywords) / len(required_skills)) * 100) if required_skills else 0
 
     return {
         "score": score,
-        "matched_skills": matched_skills,
-        "missing_skills": missing_skills
+        "matched_keywords": matched_keywords,
+        "required_keywords": required_skills
     }

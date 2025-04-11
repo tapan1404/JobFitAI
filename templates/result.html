@@ -108,34 +108,51 @@
 <body>
   <div class="container">
     <h2>📄 Resume Analysis</h2>
-    <p><span class="highlight">Name:</span> {{ resume_data.name }}</p>
-    <p><span class="highlight">Email:</span> {{ resume_data.email }}</p>
-    <p><span class="highlight">Phone:</span> {{ resume_data.mobile_number }}</p>
-    <p><span class="highlight">Education:</span> {{ resume_data.education }}</p>
+    <p><span class="highlight">Name:</span> {{ resume_data.get('name', 'N/A') }}</p>
+    <p><span class="highlight">Email:</span> {{ resume_data.get('email', 'N/A') }}</p>
+    <p><span class="highlight">Phone:</span> {{ resume_data.get('mobile_number', 'N/A') }}</p>
+    <p><span class="highlight">Education:</span>
+      <ul>
+        {% for edu in resume_data.get('education') or [] %}
+          <li>{{ edu }}</li>
+        {% else %}
+          <li>No education listed.</li>
+        {% endfor %}
+      </ul>
+    </p>
+
     <p><span class="highlight">Experience:</span>
       <ul>
-        {% for exp in resume_data.experience %}
+        {% for exp in resume_data.get('experience') or [] %}
           <li>{{ exp }}</li>
+        {% else %}
+          <li>No experience listed.</li>
         {% endfor %}
       </ul>
     </p>
 
     <div class="score-box">
-      🎯 Resume Match Score: <strong>{{ match_results.score }}%</strong>
+      🎯 Resume Match Score: <strong>{{ match_results.get('score', 0) }}%</strong>
     </div>
 
     <p><span class="highlight">✅ Matched Skills:</span>
       <ul>
-        {% for skill in match_results.matched_skills %}
+        {% for skill in match_results.get('matched_keywords', []) %}
           <li class="matched">{{ skill }}</li>
+        {% else %}
+          <li>No matched skills found.</li>
         {% endfor %}
       </ul>
     </p>
 
     <p><span class="highlight">❌ Missing Skills:</span>
       <ul>
-        {% for skill in match_results.missing_skills %}
+        {% set all_skills = match_results.get('required_keywords', []) %}
+        {% set matched = match_results.get('matched_keywords', []) %}
+        {% for skill in all_skills if skill not in matched %}
           <li class="missing">{{ skill }}</li>
+        {% else %}
+          <li>None — Great job!</li>
         {% endfor %}
       </ul>
     </p>
