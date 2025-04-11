@@ -3,8 +3,15 @@ import os
 
 from resume_parser import parse_resume
 from job_matcher import get_job_match_score
+
 import nltk
-nltk.download('stopwords')
+
+# ✅ Setup custom nltk_data path and download stopwords
+nltk_data_path = os.path.join(os.getcwd(), "nltk_data")
+os.makedirs(nltk_data_path, exist_ok=True)
+
+nltk.data.path.append(nltk_data_path)
+nltk.download('stopwords', download_dir=nltk_data_path)
 
 app = Flask(__name__)
 
@@ -27,12 +34,14 @@ def index():
 
     return render_template('index.html')
 
+
 @app.route('/suggest', methods=['POST'])
 def suggest():
     suggestion = request.form['suggestion']
     with open('suggestions.txt', 'a', encoding='utf-8') as file:
         file.write(suggestion + '\n---\n')
     return render_template('thanks.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
