@@ -1,5 +1,6 @@
-import nltk
-nltk.download('stopwords')
+import nltk_download  # Ensure stopwords/punkt downloaded before anything
+
+from resume_parser import parse_resume  # This will now work
 
 from flask import Flask, render_template, request, redirect
 import os
