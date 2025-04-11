@@ -1,3 +1,6 @@
+import nltk
+nltk.download('stopwords')
+
 from flask import Flask, render_template, request, redirect
 import os
 from resume_parser import parse_resume
